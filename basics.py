@@ -12,3 +12,11 @@ sess.run(y.initializer)
 result = sess.run(f)
 print(result)
 sess.close()
+
+result = 0
+#a better way to implement the above code is to use the global initialize
+init = tf.global_variables_initializer() # prepare an init node
+with tf.Session() as sess:
+    init.run()
+    result = f.eval()
+print(result)
