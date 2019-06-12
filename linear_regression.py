@@ -38,8 +38,8 @@ y_pred = tf.matmul(x_train, theta, name="predictions")
 error = y_pred - y_train
 
 mse = tf.reduce_mean(tf.square(error), name="mse")
-gradients = 2/m * tf.matmul(tf.transpose(x_train),error)
-
+#gradients = 2/m * tf.matmul(tf.transpose(x_train),error) #manual
+gradients = tf.gradients(mse,[theta])[0] #autodiff
 training_op = tf.assign(theta, theta - learning_rate * gradients)
 init = tf.global_variables_initializer()
 
@@ -51,3 +51,6 @@ with tf.Session() as sess:
         sess.run(training_op)
     best_theta = theta.eval()
 print(best_theta)
+
+#using autodiff
+#tensoflow calculate the gradients automatically
