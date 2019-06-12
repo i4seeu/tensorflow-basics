@@ -38,9 +38,16 @@ y_pred = tf.matmul(x_train, theta, name="predictions")
 error = y_pred - y_train
 
 mse = tf.reduce_mean(tf.square(error), name="mse")
+#without using an optimizer
+
 #gradients = 2/m * tf.matmul(tf.transpose(x_train),error) #manual
-gradients = tf.gradients(mse,[theta])[0] #autodiff
-training_op = tf.assign(theta, theta - learning_rate * gradients)
+#gradients = tf.gradients(mse,[theta])[0] #autodiff
+
+#training_op = tf.assign(theta, theta - learning_rate * gradients)
+#using an optimizer
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
+training_op = optimizer.minimize(mse)
+
 init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
